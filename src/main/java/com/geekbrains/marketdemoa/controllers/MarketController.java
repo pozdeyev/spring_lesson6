@@ -1,24 +1,22 @@
 package com.geekbrains.marketdemoa.controllers;
-
 import com.geekbrains.marketdemoa.entites.Category;
 import com.geekbrains.marketdemoa.entites.Item;
-import com.geekbrains.marketdemoa.repositories.specifications.ItemSpecifications;
+import com.geekbrains.marketdemoa.entites.ShoppingCart;
 import com.geekbrains.marketdemoa.services.CategoryService;
 import com.geekbrains.marketdemoa.services.ItemService;
 import com.geekbrains.marketdemoa.utils.ItemFilter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 public class MarketController {
@@ -34,14 +32,24 @@ public class MarketController {
     @GetMapping("/")
     public String index(Model model, @RequestParam Map<String, String> params) {
         int pageIndex = 0;
+        String sort = "id"; //сортировка по умолчанию
+        String word;
+
+        if (params.containsKey("sort_by") && !params.get("sort_by").isEmpty()) {
+             sort = params.get("sort_by");
+        }
+
         if (params.containsKey("p")) {
             pageIndex = Integer.parseInt(params.get("p")) - 1;
         }
-        Pageable pageRequest = PageRequest.of(pageIndex, 10);
+//
+
+//
+        Pageable pageRequest = PageRequest.of(pageIndex, 5, Sort.Direction.ASC, sort);
         ItemFilter itemFilter = new ItemFilter(params);
         Page<Item> page = itemService.findAll(itemFilter.getSpec(), pageRequest);
-
         List<Category> categories = categoryService.getAll();
+
         model.addAttribute("filtersDef", itemFilter.getFilterDefinition());
         model.addAttribute("categories", categories);
         model.addAttribute("page", page);
@@ -62,4 +70,5 @@ public class MarketController {
         itemService.save(item);
         return "redirect:/";
     }
+
 }

@@ -7,11 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class MarketDemoAApplication {
 	// Домашнее задание:
-	// 1. Попробуйте сделать корзину
+	// 1. Попробуйте сделать корзину 		ОК
+	// 2. Сортировка / категории работают	ОК
 
 
-
-	// todo (не дз): Добавить сортировку, починить запоминание категорий, посмотреть что с lombok/edit
 
 	public static void main(String[] args) {
 		SpringApplication.run(MarketDemoAApplication.class, args);

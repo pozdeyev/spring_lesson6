@@ -26,7 +26,6 @@ public class ItemService {
     public Item findById(Long id) {
         return itemRepository.findById(id).get();
     }
-
     public Item save(Item item) {
         return itemRepository.save(item);
     }
